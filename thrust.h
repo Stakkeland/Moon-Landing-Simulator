@@ -30,26 +30,53 @@ public:
    // Get rotation in radians per second
    double rotation() const
    {
-      return 99.9;
+       double rotation = 0.0;
+       
+       if (isClock() == true)
+       {
+           rotation +=  0.1;
+       }
+
+       if (isCounter() == true)
+       {
+           rotation -=  0.1;
+       }
+
+      return rotation;
    }
 
    // get main engine thrust in  m / s ^ 2
    double mainEngineThrust() const
    {
-      return 99.9;
+      return 45000.00 / 15103.00;
    }
 
    // reflect what is firing
-   bool isMain()    const { return true; }
-   bool isClock()   const { return true; }
-   bool isCounter() const { return true; }
+   bool isMain()    const { return mainEngine; }
+   bool isClock()   const { return clockwise; }
+   bool isCounter() const { return counterClockwise; }
 
    // set the thrusters
    void set(const Interface * pUI)
    {
-      mainEngine       = true;
-      clockwise        = true;
-      counterClockwise = true;
+       mainEngine = false;
+       clockwise = false;
+       counterClockwise = false;
+       
+       if (pUI->isRight() >= 1)
+       {
+           counterClockwise = true;
+       }
+
+       if (pUI->isLeft() >= 1)
+       {
+           clockwise = true;
+       }
+
+       if (pUI->isDown() >= 1)
+       {
+           mainEngine = true;
+       }
    }
 
 private:
