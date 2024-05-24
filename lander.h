@@ -58,7 +58,7 @@ public:
   void land() { angle.setUp(); status = SAFE; }
 
   // we are dead. Draw the lander upside down
-  void crash() {  }
+  void crash() { angle.setDown(); status = DEAD; }
 
 private:
    Status   status;      // are we dead or not?
