@@ -31,6 +31,20 @@ void Lander :: reset(const Position & posUpperRight)
  ***************************************************************/
 void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
+   gout.drawLander(pos, angle.getRadians()); // Following same as simulator.cpp
+   
+   if (thrust.isMain())
+   {
+      gout.drawLanderFlames(pos, angle.getRadians(), true, false, false);
+   }
+   else if (thrust.isClock())
+   {
+      gout.drawLanderFlames(pos, angle.getRadians(), false, true, false);
+   }
+   else if (thrust.isCounter())
+   {
+      gout.drawLanderFlames(pos, angle.getRadians(), false, false, true);
+   }
 }
 
 /***************************************************************
