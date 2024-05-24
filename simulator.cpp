@@ -23,9 +23,37 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), posLander(200,200) {}
+   
+   // display stuff on the screen
+   void display();
+
    Ground ground;
+   Angle a;
+   Position posLander;
+   Star star;
 };
+
+/**********************************************************
+ * DISPLAY
+ * Draw on the screen
+ **********************************************************/
+void Simulator::display()
+{
+	ogstream gout;
+
+	// draw the ground
+	ground.draw(gout);
+
+	// draw the lander
+	gout.drawLander(posLander, a.getRadians());
+
+	// draw 50 stars
+	for (int i = 0; i < 50; i++) {
+		star.draw(gout);
+	}
+
+}
 
 
 
@@ -42,7 +70,24 @@ void callBack(const Interface* pUI, void* p)
    ogstream gout;
 
    // draw the ground
-   pSimulator->ground.draw(gout);
+   //pSimulator->ground.draw(gout);
+
+   // draw the game
+   pSimulator->display();
+
+   // handle input
+   if (pUI->isRight())
+   {
+	   pSimulator->a.add(-0.1);   // rotate right here
+	   //pSimulator->posLander.addX(10); // move to the right
+   }
+
+   if (pUI->isLeft())
+   {
+	   pSimulator->a.add(0.1);   // rotate left here
+	   //pSimulator->posLander.addX(-10); // move to the left
+   }
+
 }
 
 /*********************************
