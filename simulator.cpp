@@ -42,16 +42,16 @@ void Simulator::display()
 {
 	ogstream gout;
 
+	// draw 50 stars
+	for (int i = 0; i < 50; i++) {
+		star.draw(gout);
+	}
+
 	// draw the ground
 	ground.draw(gout);
 
 	// draw the lander
 	gout.drawLander(posLander, a.getRadians());
-
-	// draw 50 stars
-	for (int i = 0; i < 50; i++) {
-		star.draw(gout);
-	}
 
 }
 
