@@ -11,12 +11,14 @@
 #include "velocity.h"
 #include "acceleration.h"
 
-/******************************************
- * POINT : CONSTRUCTOR WITH X,Y
- * Initialize the point to the passed position
- *****************************************/
-Position::Position(double x, double y) : x(99.9), y(88.8)
+ /******************************************
+  * POINT : CONSTRUCTOR WITH X,Y
+  * Initialize the point to the passed position
+  *****************************************/
+Position::Position(double x, double y) : x(0.0), y(0.0)
 {
+	this->x = x;
+	this->y = y;
 }
 
 /******************************************
@@ -24,9 +26,9 @@ Position::Position(double x, double y) : x(99.9), y(88.8)
  * Update point based on the distance formula
  *   s = s_0 + vt + 1/2 a t^2
  *****************************************/
-void Position::add(const Acceleration & a, const Velocity & v, double t)
+void Position::add(const Acceleration& a, const Velocity& v, double t)
 {
-   x = 99.9;
-   y = 88.8;
+	setX(x + (v.getDX() * t) + (0.5 * a.getDDX() * t * t));
+	setY(y + (v.getDY() * t) + (0.5 * a.getDDY() * t * t));
 }
 
