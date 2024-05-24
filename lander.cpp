@@ -21,8 +21,8 @@ void Lander :: reset(const Position & posUpperRight)
    fuel = 5000.0;
    velocity.setDX(random(-10.0, -4.0));
    velocity.setDY(random(-2.0, 2.0));
-   pos.setX(1.0);
-   pos.setY(random(75.0, 95.0));
+   pos.setX(posUpperRight.getX() - 1.0);
+   pos.setY(random(posUpperRight.getY() * 0.75, posUpperRight.getY() * 0.95));
 }
 
 /***************************************************************
