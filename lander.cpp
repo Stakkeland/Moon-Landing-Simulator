@@ -16,7 +16,13 @@
   ***************************************************************/
 void Lander :: reset(const Position & posUpperRight)
 {
-   status = DEAD;
+   angle.setUp();
+   status = PLAYING; 
+   fuel = 5000.0;
+   velocity.setDX(random(-10.0, -4.0));
+   velocity.setDY(random(-2.0, 2.0));
+   pos.setX(1.0);
+   pos.setY(random(75.0, 95.0));
 }
 
 /***************************************************************

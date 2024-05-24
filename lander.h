@@ -39,8 +39,9 @@ public:
   bool     isLanded()       const { return true; }
   bool     isFlying()       const { return true; }
   Position getPosition()    const { return pos;  }
-  double   getSpeed()       const { return 99.9; }
-  int      getFuel()        const { return -99;  }
+  double   getSpeed()       const { return sqrt(pow(velocity.getDX(), 2) + pow(velocity.getDY(), 2));
+  }
+  int      getFuel()        const { return fuel;  }
   int      getWidth()       const { return 99;   }
   double   getMaxSpeed()    const { return 99.9; }
 
