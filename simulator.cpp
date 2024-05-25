@@ -79,7 +79,7 @@ void callBack(const Interface* pUI, void* p)
    // draw the ground
    //pSimulator->ground.draw(gout);
 
-   Acceleration acceleration = pSimulator->lander.input(thrust, -1.625); // ups I don't know what to put in gravity but that is the number in our first exercise
+   Acceleration acceleration = pSimulator->lander.input(thrust, -1.625); 
    pSimulator->lander.coast(acceleration, 0.1); // ups with the time too...
 
 

@@ -29,7 +29,8 @@ class Lander
    
 public:
   // to create a lander, we need to know something about the board
-  Lander(const Position & posUpperRight) : status(PLAYING), fuel(5000.0), velocity(-6.0, 1.0), pos(200, 300) {  }
+  Lander(const Position & posUpperRight) : status(PLAYING), fuel(5000.0), velocity(random(-10.0,-4.0), random(-2.0,2.0)), 
+	  pos(200, 300) {  }
 
   // reset the lander and its position
   void reset(const Position& posUpperRight);
