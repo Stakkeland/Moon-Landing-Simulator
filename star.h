@@ -23,7 +23,7 @@ public:
 
     // Method to reset the star's position 
     void reset(double width, double height) {
-        pos.setX(random(0,400));
+        pos.setX(random(0, 400));
         pos.setY(random(0, 400));
     }
 
