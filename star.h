@@ -29,7 +29,6 @@ public:
 
     void draw(ogstream& gout) {
         phase += 1;
-        reset(0.0,0.0);
         gout.drawStar(pos, phase);
     }
 

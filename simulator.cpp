@@ -32,6 +32,7 @@ public:
    Angle a;
    Position posLander;
    Star star;
+   Lander lander;
 };
 
 /**********************************************************
@@ -44,6 +45,7 @@ void Simulator::display()
 
 	// draw 50 stars
 	for (int i = 0; i < 50; i++) {
+		star.reset(0.0, 0.0);
 		star.draw(gout);
 	}
 
