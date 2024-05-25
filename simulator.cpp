@@ -11,6 +11,7 @@
 #include "uiDraw.h"      // for RANDOM and DRAW*
 #include "ground.h"      // for GROUND
 #include "test.h"        // for the unit tests
+#include "thrust.h"      // moving lunar lander
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
 using namespace std;
@@ -33,6 +34,7 @@ public:
    Position posLander;
    Star star;
    Lander lander;
+   Thrust thrust;
 };
 
 /**********************************************************
