@@ -60,6 +60,9 @@ public:
   // we are dead. Draw the lander upside down
   void crash() { angle.setDown(); status = DEAD; }
 
+  // a test to access angle and update position in simulator
+  Angle getAngle()         const { return angle; }
+
 private:
    Status   status;      // are we dead or not?
    Position pos;         // the location of the lander

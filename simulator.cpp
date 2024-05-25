@@ -54,7 +54,7 @@ void Simulator::display()
 	ground.draw(gout);
 
 	// draw the lander
-	gout.drawLander(posLander, a.getRadians());
+	gout.drawLander(lander.getPosition(), lander.getAngle().getRadians());
 
 }
 
