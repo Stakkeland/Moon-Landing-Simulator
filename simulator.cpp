@@ -24,7 +24,7 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), posLander(200,200) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight) {}
    
    // display stuff on the screen
    void display();
@@ -34,7 +34,6 @@ public:
    Position posLander;
    Star star;
    Lander lander;
-   Thrust thrust;
 };
 
 /**********************************************************
@@ -72,6 +71,7 @@ void callBack(const Interface* pUI, void* p)
    Simulator * pSimulator = (Simulator *)p;
 
    ogstream gout;
+   Thrust thrust;
 
    // draw the ground
    //pSimulator->ground.draw(gout);
@@ -79,18 +79,8 @@ void callBack(const Interface* pUI, void* p)
    // draw the game
    pSimulator->display();
 
-   // handle input
-   if (pUI->isRight())
-   {
-	   pSimulator->a.add(-0.1);   // rotate right here
-	   //pSimulator->posLander.addX(10); // move to the right
-   }
-
-   if (pUI->isLeft())
-   {
-	   pSimulator->a.add(0.1);   // rotate left here
-	   //pSimulator->posLander.addX(-10); // move to the left
-   }
+   // input from keyboard 
+   thrust.set(pUI);
 
 }
 
