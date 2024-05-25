@@ -34,6 +34,7 @@ public:
    Position posLander;
    Star star;
    Lander lander;
+   Thrust thrust;
 };
 
 /**********************************************************
@@ -54,7 +55,7 @@ void Simulator::display()
 	ground.draw(gout);
 
 	// draw the lander
-	gout.drawLander(lander.getPosition(), lander.getAngle().getRadians());
+	lander.draw(thrust, gout);
 
 }
 
@@ -70,17 +71,22 @@ void callBack(const Interface* pUI, void* p)
    // is the first step of every single callback function in OpenGL. 
    Simulator * pSimulator = (Simulator *)p;
 
-   ogstream gout;
+   /*ogstream gout;*/
    Thrust thrust;
+   // input from keyboard 
+   thrust.set(pUI);
 
    // draw the ground
    //pSimulator->ground.draw(gout);
 
+   Acceleration acceleration = pSimulator->lander.input(thrust, -1.625); // ups I don't know what to put in gravity but that is the number in our first exercise
+   pSimulator->lander.coast(acceleration, 0.1); // ups with the time too...
+
+
    // draw the game
    pSimulator->display();
 
-   // input from keyboard 
-   thrust.set(pUI);
+   
 
 }
 
