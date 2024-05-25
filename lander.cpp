@@ -53,8 +53,33 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
  ***************************************************************/
 Acceleration Lander :: input(const Thrust& thrust, double gravity)
 {
-   pos.setX(-99.9);
-   return Acceleration();
+   double ddx = 0.0;
+   double ddy = gravity;
+
+   if (fuel > 0)
+   {
+      if (thrust.isMain())
+      {
+         // Thrust components
+         double thrustMagnitude = thrust.mainEngineThrust();
+         ddx -= thrustMagnitude * sin(angle.getRadians());
+         ddy += thrustMagnitude * cos(angle.getRadians());
+         fuel -= 10.0; // Consuming fuel
+      }
+      if (thrust.isClock() && fuel > 0)
+      {
+         angle.setRadians(angle.getRadians() + 0.1); // rotation
+         fuel -= 1.0; // Consuming fuel
+      }
+      if (thrust.isCounter() && fuel > 0)
+      {
+         angle.setRadians(angle.getRadians() - 0.1); // rotation
+         fuel -= 1.0; // Consuming fuel
+      }
+   }
+
+   // Return the new acceleration
+   return Acceleration(ddx, ddy);
 }
 
 /******************************************************************
@@ -63,8 +88,11 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
  *******************************************************************/
 void Lander :: coast(Acceleration & acceleration, double time)
 {
-   pos.addX(velocity.getDX() * time);
-   pos.addY(velocity.getDY() * time);
+   // update through velocity and acceleration
+   pos.addX(velocity.getDX() * time + 0.5 * acceleration.getDDX() * time * time);
+   pos.addY(velocity.getDY() * time + 0.5 * acceleration.getDDY() * time * time);
+
+   // Update through acceleration
    velocity.addDX(acceleration.getDDX() * time);
    velocity.addDY(acceleration.getDDY() * time);
 }
