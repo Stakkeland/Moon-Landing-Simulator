@@ -16,13 +16,22 @@
   ***************************************************************/
 void Lander :: reset(const Position & posUpperRight)
 {
+   // Straight the lander up
    angle.setUp();
-   status = PLAYING; 
-   fuel = 5000.0;
+
+   // Random velocity
    velocity.setDX(random(-10.0, -4.0));
    velocity.setDY(random(-2.0, 2.0));
+
+   // The position is at the right side of the screen
    pos.setX(posUpperRight.getX() - 1.0);
    pos.setY(random(posUpperRight.getY() * 0.75, posUpperRight.getY() * 0.95));
+
+   // Status is playing
+   status = PLAYING;
+
+   // Always a full tank to start
+   fuel = FUEL_MAX; 
 }
 
 /***************************************************************
@@ -33,17 +42,10 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
    gout.drawLander(pos, angle.getRadians()); // Following same as simulator.cpp
    
-   if (thrust.isMain())
+   if (isFlying() && fuel > 0.0)
    {
-      gout.drawLanderFlames(pos, angle.getRadians(), true, false, false);
-   }
-   else if (thrust.isClock())
-   {
-      gout.drawLanderFlames(pos, angle.getRadians(), false, true, false);
-   }
-   else if (thrust.isCounter())
-   {
-      gout.drawLanderFlames(pos, angle.getRadians(), false, false, true);
+      gout.drawLanderFlames(pos, angle.getRadians(),
+         thrust.isMain(), thrust.isClock(), thrust.isCounter());
    }
 }
 
@@ -53,33 +55,44 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
  ***************************************************************/
 Acceleration Lander :: input(const Thrust& thrust, double gravity)
 {
-   double ddx = 0.0;
-   double ddy = gravity;
+   // Acceleration due to gravity
+   Acceleration a;
 
-   if (fuel > 0)
+   // Add gravity
+   a.addDDY(gravity);
+
+   // If out of gas
+   if (fuel == 0.0)
+      return a;
+
+  // Main engines
+   if (thrust.isMain())
    {
-      if (thrust.isMain())
-      {
-         // Thrust components
-         double thrustMagnitude = thrust.mainEngineThrust();
-         ddx -= thrustMagnitude * sin(angle.getRadians());
-         ddy += thrustMagnitude * cos(angle.getRadians());
-         fuel -= 10.0; // Consuming fuel
-      }
-      if (thrust.isClock() && fuel > 0)
-      {
-         angle.setRadians(angle.getRadians() + 0.1); // rotation
-         fuel -= 1.0; // Consuming fuel
-      }
-      if (thrust.isCounter() && fuel > 0)
-      {
-         angle.setRadians(angle.getRadians() - 0.1); // rotation
-         fuel -= 1.0; // Consuming fuel
-      }
+      // Thrust components
+      double power = (LANDER_THRUST / LANDER_WEIGHT);
+      a.addDDX(-sin(angle.getRadians()) * power );
+      a.addDDY(cos(angle.getRadians()) * power);
+      fuel -= FUEL_MAIN_THRUST;
    }
 
-   // Return the new acceleration
-   return Acceleration(ddx, ddy);
+   // Clockwise
+   if (thrust.isClock())
+   {
+      angle.add(0.1); // rotation
+      fuel -= FUEL_ROTATE; // Consuming fuel
+   }
+
+   // Counter Clockwise
+   if (thrust.isCounter())
+   {
+      angle.add(-0.1); // rotation
+      fuel -= FUEL_ROTATE; // Consuming fuel
+   }
+
+   if (fuel < 0.0)
+      fuel = 0.0;
+   
+   return a;
 }
 
 /******************************************************************
@@ -88,11 +101,9 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
  *******************************************************************/
 void Lander :: coast(Acceleration & acceleration, double time)
 {
-   // update through velocity and acceleration
-   pos.addX(velocity.getDX() * time + 0.5 * acceleration.getDDX() * time * time);
-   pos.addY(velocity.getDY() * time + 0.5 * acceleration.getDDY() * time * time);
+   // update velocity
+   velocity.add(acceleration, time);
 
-   // Update through acceleration
-   velocity.addDX(acceleration.getDDX() * time);
-   velocity.addDY(acceleration.getDDY() * time);
+   // Update position
+   pos.add(acceleration, velocity, time);
 }

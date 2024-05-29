@@ -32,12 +32,12 @@ public:
    {
        double rotation = 0.0;
        
-       if (isClock() == true)
+       if (isClock())
        {
            rotation +=  0.1;
        }
 
-       if (isCounter() == true)
+       if (isCounter())
        {
            rotation -=  0.1;
        }

@@ -22,14 +22,17 @@ public:
     Star() : phase(0) {} // Initializes phase to 0
 
     // Method to reset the star's position 
-    void reset(double width, double height) {
-        pos.setX(random(0, 400));
-        pos.setY(random(0, 400));
+    void reset(double width, double height) 
+    {
+        pos.setX(random(0.0, width));
+        pos.setY(random(0.0, height));
+        phase = random(0, 255);
     }
 
-    void draw(ogstream& gout) {
-        phase += 1;
-        gout.drawStar(pos, phase);
+    // Draw the star and increments the twinkle
+    void draw(ogstream& gout) 
+    {
+        gout.drawStar(pos, phase++);
     }
 
 private:

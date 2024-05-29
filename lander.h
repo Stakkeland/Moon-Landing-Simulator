@@ -15,6 +15,15 @@
 #include "uiDraw.h"    // for DRAW* and RANDOM
 #include "angle.h"     // for ANGLE
 
+// Constants
+#define LANDER_WIDTH     20       // Width of lander
+#define MAX_SPEED         4.0     // Max speed to land
+#define LANDER_WEIGHT 15103.00    // Weight of lander in kg
+#define LANDER_THRUST 45000.00    // Thrust of the main engine in N
+#define FUEL_MAIN_THRUST 10.0     // fuel consumed by main thruster
+#define FUEL_ROTATE       1.0     // fuel consumed by the rotation thrusters
+#define FUEL_MAX       5000.0     // total amount of fuel
+
 enum Status { PLAYING, SAFE, DEAD };
 
 class TestLander;
@@ -29,8 +38,7 @@ class Lander
    
 public:
   // to create a lander, we need to know something about the board
-  Lander(const Position & posUpperRight) : status(PLAYING), fuel(5000.0), velocity(random(-10.0,-4.0), random(-2.0,2.0)), 
-	  pos(200, 300) {  }
+   Lander(const Position& posUpperRight) : status(PLAYING) { reset(posUpperRight); }
 
   // reset the lander and its position
   void reset(const Position& posUpperRight);
@@ -39,12 +47,11 @@ public:
   bool     isDead()         const { return status == DEAD; }
   bool     isLanded()       const { return status == SAFE; }
   bool     isFlying()       const { return status == PLAYING; }
-  Position getPosition()    const { return pos;  }
-  double   getSpeed()       const { return sqrt(pow(velocity.getDX(), 2) + pow(velocity.getDY(), 2));
-  }
-  int      getFuel()        const { return fuel;  }
-  int      getWidth()       const { return 20;   }
-  double   getMaxSpeed()    const { return 4.0; }
+  Position getPosition()    const { return pos; }
+  double   getSpeed()       const { return velocity.getSpeed(); }
+  int      getFuel()        const { return (int) fuel; }
+  int      getWidth()       const { return LANDER_WIDTH; }
+  double   getMaxSpeed()    const { return MAX_SPEED; }
 
   // draw the lander on the screen
   void draw(const Thrust & thrust, ogstream & gout) const;
@@ -59,7 +66,7 @@ public:
   void land() { angle.setUp(); status = SAFE; }
 
   // we are dead. Draw the lander upside down
-  void crash() { angle.setDown(); status = DEAD; }
+  void crash() { status = DEAD; angle.setDown(); }
 
 private:
    Status   status;      // are we dead or not?
