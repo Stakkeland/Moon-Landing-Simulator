@@ -18,8 +18,8 @@
   *********************************************/
 void Acceleration::add(const Acceleration& acceleration)
 {
-	ddx = ddx + acceleration.ddx;
-	ddy = ddy + acceleration.ddy;
+	ddx += acceleration.getDDX();
+	ddy += acceleration.getDDY();
 }
 
 /*********************************************
@@ -28,14 +28,6 @@ void Acceleration::add(const Acceleration& acceleration)
  *********************************************/
 void Acceleration::set(const Angle& angle, double magnitude)
 {
-	// Assuming what is entering are degrees
-	double degrees = angle.getDegrees();
-	double radians = degrees / 360.0 * TWO_PI;
-
-	// Making that 0.0 degrees is up, and so on
-	radians = M_PI / 2.0 - radians;
-
-	// setting up the acceleration for both components
-	setDDX(magnitude * cos(radians));
-	setDDY(magnitude * sin(radians));
+	ddx = magnitude * sin(angle.getRadians());
+	ddy = magnitude * cos(angle.getRadians());
 }

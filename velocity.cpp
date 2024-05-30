@@ -19,8 +19,8 @@
   *********************************************/
 void Velocity::add(const Acceleration& acceleration, double time)
 {
-	setDX(dx + (acceleration.getDDX() * time));
-	setDY(dy + (acceleration.getDDY() * time));
+	dx += acceleration.getDDX() * time;
+	dy += acceleration.getDDY() * time;
 }
 
 /*********************************************
@@ -38,12 +38,6 @@ double Velocity::getSpeed() const
  *********************************************/
 void Velocity::set(const Angle& angle, double magnitude)
 {
-	double degrees = angle.getDegrees();
-	double radians = degrees / 360.0 * TWO_PI;
-
-	// Making that 0.0 degrees is up, and so on
-	radians = M_PI / 2.0 - radians;
-
-	setDX(magnitude * cos(radians));
-	setDY(magnitude * sin(radians));
+	dx = magnitude * sin(angle.getRadians());
+	dy = magnitude * cos(angle.getRadians());
 }

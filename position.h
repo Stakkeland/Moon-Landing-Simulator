@@ -27,36 +27,28 @@ class Position
 public:
     // constructors
     Position() : x(0.0), y(0.0) { }
-    Position(const Position& pos) : x(0.0), y(0.0) { x = pos.x; y = pos.y; }
+    Position(const Position & pos) : x(pos.x), y(pos.y) {  }
     Position(double x, double y);
 
     // getters
     double getX() const { return x; }
     double getY() const { return y; }
-    bool operator == (const Position& rhs) const
+    bool operator == (const Position & rhs) const
     {
-        if (x == rhs.x && y == rhs.y)
-        {
-            return true;
-        }
-        return false;
+       return x == rhs.x && y == rhs.y;
     }
-    bool operator != (const Position& rhs) const
+    bool operator != (const Position & rhs) const
     {
-        if (x != rhs.x || y != rhs.y)
-        {
-            return true;
-        }
-        return false;
+       return x != rhs.x || y != rhs.y;
     }
 
     // setters
     void setX(double x) { this->x = x; }
     void setY(double y) { this->y = y; }
-    void addX(double x) { this->x = this->x + x; }
-    void addY(double y) { this->y = this->y + y; }
-    void add(const Acceleration& a, const Velocity& v, double t);
-    Position& operator = (const Position& rhs)
+    void addX(double x) { this->x += x; }
+    void addY(double y) { this->y += y; }
+    void add(const Acceleration & a, const Velocity & v, double t);
+    Position & operator = (const Position & rhs)
     {
         x = rhs.x;
         y = rhs.y;

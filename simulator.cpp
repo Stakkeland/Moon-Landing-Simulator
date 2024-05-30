@@ -16,6 +16,10 @@
 #include <cassert>       // for ASSERT
 using namespace std;
 
+#define GRAVITY -1.625   // Gravity
+#define TIME     0.1     // Time
+#define WIDTH  400       // Width
+#define HEIGHT 400       // Height
 
 /*************************************************************************
  * SIMULATOR
@@ -46,8 +50,9 @@ void Simulator::display()
 	ogstream gout;
 
 	// draw 50 stars
-	for (int i = 0; i < 50; i++) {
-		star.reset(0.0, 0.0);
+	for (int i = 0; i < 50; i++)
+   {
+		star.reset(WIDTH, HEIGHT);
 		star.draw(gout);
 	}
 
@@ -58,7 +63,6 @@ void Simulator::display()
 	lander.draw(thrust, gout);
 
 }
-
 
 
 /*************************************
@@ -75,14 +79,12 @@ void callBack(const Interface* pUI, void* p)
    // input from keyboard 
    thrust.set(pUI);
 
-   Acceleration acceleration = pSimulator->lander.input(thrust, -1.625); // gravity given at the beginning
-   pSimulator->lander.coast(acceleration, 0.1);// with this time we can appreciate better the movement
+   Acceleration acceleration = pSimulator->lander.input(thrust, GRAVITY); // gravity given at the beginning
+
+   pSimulator->lander.coast(acceleration, TIME);// with this time we can appreciate better the movement
 
    // draw the game
    pSimulator->display();
-
-   
-
 }
 
 /*********************************
@@ -106,14 +108,14 @@ int main(int argc, char** argv)
 
    
    // Initialize OpenGL
-   Position posUpperRight(400, 400);
+   Position posUpperRight(WIDTH, HEIGHT);
    Interface ui("Lunar Lander", posUpperRight);
 
    // Initialize the game class
    Simulator simulator(posUpperRight);
 
    // set everything into action
-   ui.run(callBack, (void *)&simulator);
+   ui.run(callBack, (void *) & simulator);
 
    return 0;
 }

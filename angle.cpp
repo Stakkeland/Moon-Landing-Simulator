@@ -18,17 +18,17 @@ using namespace std;
 double Angle::normalize(double radians) const
 {
 	// Adjust the angle for values less than 0 or greater than or equal to 2*PI
-	if (radians < 0.0)
-	{
-		// Add 2*PI until the angle is greater than 0
-		double multiples = ceil(-radians / TWO_PI);
-		return TWO_PI * multiples + radians;
-	}
-	else if (radians >= TWO_PI)
+	if (radians >= (M_PI * 2.0))
 	{
 		// Subtract 2*PI until the angle is less than 2*PI
-		double multiples = floor(radians / TWO_PI);
-		return radians - (TWO_PI * multiples);
+		double multiples = floor(radians / (M_PI * 2.0));
+		return radians - ((M_PI * 2.0) * multiples);
+	}
+	else if (radians < 0.0)
+	{
+		// Add 2*PI until the angle is greater than 0
+		double multiples = ceil(-radians / (M_PI * 2.0));
+		return (M_PI * 2.0) * multiples + radians;
 	}
 
 	return radians;
@@ -40,7 +40,7 @@ double Angle::normalize(double radians) const
 ******************************************/
 double Angle::convertToDegrees(double radians) const
 {
-	return normalize(radians) / TWO_PI * 360.0;
+	return radians / (M_PI * 2.0) * 360.0;
 }
 
 /*****************************************
@@ -49,7 +49,7 @@ double Angle::convertToDegrees(double radians) const
 ******************************************/
 double Angle::convertToRadians(double degrees) const
 {
-	return normalize(degrees / 360.0 * TWO_PI);
+	return degrees / 360.0 * (M_PI * 2.0);
 }
 
 

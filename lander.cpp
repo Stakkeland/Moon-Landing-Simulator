@@ -43,10 +43,8 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
    gout.drawLander(pos, angle.getRadians()); // Following same as simulator.cpp
    
    if (isFlying() && fuel > 0.0)
-   {
-      gout.drawLanderFlames(pos, angle.getRadians(),
+      gout.drawLanderFlames(pos, angle.getRadians(), 
          thrust.isMain(), thrust.isClock(), thrust.isCounter());
-   }
 }
 
 /***************************************************************
@@ -101,9 +99,11 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
  *******************************************************************/
 void Lander :: coast(Acceleration & acceleration, double time)
 {
+   // Update position
+   pos.add(acceleration, velocity, time);
+
    // update velocity
    velocity.add(acceleration, time);
 
-   // Update position
-   pos.add(acceleration, velocity, time);
+   
 }
