@@ -45,6 +45,8 @@ public:
    Thrust thrust;
    Position posText;
    Position centerText;
+
+   int starLoops = 0;
 };
 
 /**********************************************************
@@ -54,12 +56,22 @@ public:
 void Simulator::display()
 {
 	ogstream gout;
+	Star* stars = new Star[50];
 
    // draw 50 stars
+	if (starLoops == 0)
+	{
+		for (int i = 0; i < 50; i++)
+		{
+			stars[i].reset(WIDTH, HEIGHT);
+		}
+
+		starLoops += 1;
+	}
+
 	for (int i = 0; i < 50; i++)
-   {
-		star.reset(WIDTH, HEIGHT);
-		star.draw(gout);
+	{
+		stars[i].draw(gout);
 	}
 
 	// draw the ground
