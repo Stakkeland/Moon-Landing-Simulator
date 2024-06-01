@@ -28,7 +28,7 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(350,350), 
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(20,380), 
 		startLander(posUpperRight) {}
    
    // display stuff on the screen
@@ -52,7 +52,7 @@ void Simulator::display()
 {
 	ogstream gout;
 
-	// draw 50 stars
+   // draw 50 stars
 	for (int i = 0; i < 50; i++)
    {
 		star.reset(WIDTH, HEIGHT);
@@ -64,6 +64,13 @@ void Simulator::display()
 
 	// draw the lander
 	lander.draw(thrust, gout);
+
+   // Draw variables on the screen
+   gout.setPosition(posText);
+   gout << "Fuel: " << lander.getFuel() << " L? gal?" << endl;
+   gout << "Altitude: " << static_cast<int>(lander.getPosition().getY() - ground.getElevation(lander.getPosition())) << " m" << endl;
+   gout << "Speed: " << static_cast<int>(lander.getSpeed()) << " m/s" << endl;
+   gout.flush();
 
 }
 
