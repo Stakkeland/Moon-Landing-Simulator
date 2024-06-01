@@ -96,10 +96,6 @@ void callBack(const Interface* pUI, void* p)
 
    pSimulator->lander.coast(acceleration, TIME); // with this time we can appreciate better the movement
 
-   // Text on screen.
-   ogstream gout;
-   gout.setPosition(pSimulator->posText);
-   gout.flush();
 
    // Handle crashes and landings.
    if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true)
