@@ -76,6 +76,42 @@ void Simulator::display()
    gout << "Speed: " << fixed << setprecision(2) << (lander.getSpeed()) << " m/s" << endl;
    gout.flush();
 
+   // Land success
+   if (ground.onPlatform(posLander, 20) == true && lander.getSpeed() <= 4.00)
+   {
+	   lander.land();
+
+	   // Put text on screen
+	   gout.setPosition(centerText);
+	   gout << "Eagle has landed!" << endl;
+	   gout.flush();
+
+   }
+
+   // Crash
+   if (ground.hitGround(posLander, 20) == true)
+   {
+	   lander.crash();
+
+	   // Put text on screen
+	   gout.setPosition(centerText);
+	   gout << "Houston we have a problem!" << endl;
+	   gout.flush();
+
+   }
+
+   // Crash
+   if (ground.onPlatform(posLander, 20) == true && lander.getSpeed() >= 4.00)
+   {
+	   lander.crash();
+
+	   // Put text on screen
+	   gout.setPosition(centerText);
+	   gout << "Houston we have a problem!" << endl;
+	   gout.flush();
+
+   }
+
 }
 
 
@@ -111,42 +147,6 @@ void callBack(const Interface* pUI, void* p)
 
    // draw the game
    pSimulator->display();
-
-   // Land success
-   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true && pSimulator->lander.getSpeed() <= 4.00 )
-   {
-	   pSimulator->lander.land();
-
-      // Put text on screen
-      gout.setPosition(pSimulator->centerText);
-      gout << "Eagle has landed!" << endl;
-      gout.flush();
-
-   }
-
-   // Crash
-   if (pSimulator->ground.hitGround(pSimulator->posLander, 20) == true) 
-   {
-	   pSimulator->lander.crash();
-
-      // Put text on screen
-      gout.setPosition(pSimulator->centerText);
-      gout << "Houston we have a problem!" << endl;
-      gout.flush();
-
-   }
-
-   // Crash
-   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true && pSimulator->lander.getSpeed() >= 4.00)
-   {
-	   pSimulator->lander.crash();
-
-	   // Put text on screen
-	   gout.setPosition(pSimulator->centerText);
-	   gout << "Houston we have a problem!" << endl;
-	   gout.flush();
-
-   }
 }
 
 /*********************************
