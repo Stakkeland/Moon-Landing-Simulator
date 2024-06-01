@@ -45,6 +45,7 @@ public:
    Thrust thrust;
    Position posText;
    Position centerText;
+   Star* stars = new Star[50];
 
    int starLoops = 0;
 };
@@ -56,7 +57,6 @@ public:
 void Simulator::display()
 {
 	ogstream gout;
-	Star* stars = new Star[50];
 
    // draw 50 stars
 	if (starLoops == 0)
