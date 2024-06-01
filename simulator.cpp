@@ -114,8 +114,6 @@ void callBack(const Interface* pUI, void* p)
       gout << "Eagle has landed!" << endl;
       gout.flush();
 
-      // Reset lander and play again.
-	  pSimulator->lander.reset(pSimulator->startLander);
    }
 
    // Crash
@@ -128,8 +126,6 @@ void callBack(const Interface* pUI, void* p)
       gout << "Houston we have a problem!" << endl;
       gout.flush();
 
-      // Reset lander and play again.
-	  pSimulator->lander.reset(pSimulator->startLander);
    }
 
    // Crash
@@ -142,16 +138,7 @@ void callBack(const Interface* pUI, void* p)
 	   gout << "Houston we have a problem!" << endl;
 	   gout.flush();
 
-	   pSimulator->lander.reset(pSimulator->startLander);
    }
-
-   // Sleep the program to see the end result
-	if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true || pSimulator->ground.hitGround(pSimulator->posLander, 20) == true)
-	{
-		Sleep(5000);
-	}
- 
-
 }
 
 /*********************************
