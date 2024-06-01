@@ -14,6 +14,7 @@
 #include "thrust.h"      // moving lunar lander
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
+#include <iomanip>       // for decimal places
 using namespace std;
 
 #define GRAVITY -1.625   // Gravity
@@ -67,9 +68,9 @@ void Simulator::display()
 
    // Draw variables on the screen
    gout.setPosition(posText);
-   gout << "Fuel: " << lander.getFuel() << " L? gal?" << endl;
-   gout << "Altitude: " << static_cast<int>(lander.getPosition().getY() - ground.getElevation(lander.getPosition())) << " m" << endl;
-   gout << "Speed: " << static_cast<int>(lander.getSpeed()) << " m/s" << endl;
+   gout << "Fuel: " << lander.getFuel() << " lbs" << endl;
+   gout << "Altitude: " << static_cast<int>(ground.getElevation(lander.getPosition())) << " m" << endl;
+   gout << "Speed: " << fixed << setprecision(2) << (lander.getSpeed()) << " m/s" << endl;
    gout.flush();
 
 }
