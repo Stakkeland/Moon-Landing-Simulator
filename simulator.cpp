@@ -31,8 +31,8 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(20,380), 
-		centerText(120, 300) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(WIDTH * 0.05,HEIGHT * 0.95), 
+		centerText(WIDTH * 0.4, HEIGHT * 0.8) {}
    
    // display stuff on the screen
    void display();
@@ -59,19 +59,20 @@ void Simulator::display()
 	ogstream gout;
 
    // draw 50 stars
-	if (starLoops == 0)
-	{
-		for (int i = 0; i < 50; i++)
-		{
-			stars[i].reset(WIDTH, HEIGHT);
-		}
+   if (starLoops == 0)
+   {
+      for (int i = 0; i < 50; i++)
+      {
+         stars[i].reset(WIDTH, HEIGHT);
+      }
 
-		starLoops += 1;
-	}
+      starLoops += 1;
+   }
 
-	for (int i = 0; i < 50; i++)
-	{
-		stars[i].draw(gout);
+   for (int i = 0; i < 50; i++)
+   {
+		star.reset(WIDTH, HEIGHT);
+		star.draw(gout);
 	}
 
 	// draw the ground
@@ -96,7 +97,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Eagle has landed!" << endl;
 	   gout.flush();
-
    }
 
    // Crash
@@ -108,7 +108,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Houston we have a problem!" << endl;
 	   gout.flush();
-
    }
 
    // Crash
@@ -120,7 +119,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Houston we have a problem!" << endl;
 	   gout.flush();
-
    }
 
 }
@@ -184,7 +182,6 @@ int main(int argc, char** argv)
 {
    // Run the unit tests
    testRunner();
-
    
    // Initialize OpenGL
    Position posUpperRight(WIDTH, HEIGHT);
