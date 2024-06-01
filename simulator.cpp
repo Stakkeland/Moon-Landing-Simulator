@@ -31,8 +31,8 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(20,380), 
-		centerText(120, 300) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(WIDTH * 0.05,HEIGHT * 0.95), 
+		centerText(WIDTH * 0.4, HEIGHT * 0.8) {}
    
    // display stuff on the screen
    void display();
@@ -54,13 +54,25 @@ public:
 void Simulator::display()
 {
 	ogstream gout;
+   int starLoops = 0;
+   // draw 50 stars
+   Star* stars = new Star[50];
 
    // draw 50 stars
-	for (int i = 0; i < 50; i++)
+   if (starLoops == 0)
    {
-		star.reset(WIDTH, HEIGHT);
-		star.draw(gout);
-	}
+      for (int i = 0; i < 50; i++)
+      {
+         stars[i].reset(WIDTH, HEIGHT);
+      }
+
+      starLoops += 1;
+   }
+
+   for (int i = 0; i < 50; i++)
+   {
+      stars[i].draw(gout);
+   }
 
 	// draw the ground
 	ground.draw(gout);
@@ -84,7 +96,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Eagle has landed!" << endl;
 	   gout.flush();
-
    }
 
    // Crash
@@ -96,7 +107,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Houston we have a problem!" << endl;
 	   gout.flush();
-
    }
 
    // Crash
@@ -108,7 +118,6 @@ void Simulator::display()
 	   gout.setPosition(centerText);
 	   gout << "Houston we have a problem!" << endl;
 	   gout.flush();
-
    }
 
 }
@@ -172,7 +181,6 @@ int main(int argc, char** argv)
 {
    // Run the unit tests
    testRunner();
-
    
    // Initialize OpenGL
    Position posUpperRight(WIDTH, HEIGHT);
