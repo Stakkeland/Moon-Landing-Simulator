@@ -43,8 +43,11 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
    gout.drawLander(pos, angle.getRadians()); // Following same as simulator.cpp
    
    if (isFlying() && fuel > 0.0)
-      gout.drawLanderFlames(pos, angle.getRadians(), 
+   {
+      gout.drawLanderFlames(pos, angle.getRadians(),
          thrust.isMain(), thrust.isClock(), thrust.isCounter());
+   }
+      
 }
 
 /***************************************************************

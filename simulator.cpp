@@ -93,6 +93,14 @@ void callBack(const Interface* pUI, void* p)
    // Get up to date position of the lander.
    pSimulator->posLander = pSimulator->lander.getPosition();
 
+   // If the lander touches the ground for any circumstance
+   if (pSimulator->lander.isLanded() || pSimulator->lander.isDead()) 
+   {
+      // Give me the last position and don't update more my screen
+      pSimulator->display();
+      return;
+   }
+
    Thrust thrust;
    // input from keyboard 
    thrust.set(pUI);
