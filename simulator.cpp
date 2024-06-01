@@ -1,7 +1,11 @@
-/**********************************************************************
- * LAB 06
- * Lunar Lander simulation. This is the Game class and main()
- **********************************************************************/
+/***********************************************************************
+ * Source File:
+ *    SIMULATOR
+ * Authors:
+ *    -Sawyer Stakkeland and Ema Guillen de Reyes-
+ * Summary:
+ *    Lab 06: Lunar Lander simulation. This is the Game class and main()
+ ************************************************************************/
 
 #include "position.h"    // everything should have a point
 #include "acceleration.h"// for ACCELERATION

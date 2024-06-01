@@ -40,10 +40,11 @@ void Lander :: reset(const Position & posUpperRight)
  ***************************************************************/
 void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
-   gout.drawLander(pos, angle.getRadians()); // Following same as simulator.cpp
+   gout.drawLander(pos, angle.getRadians()); // Draw the lander
    
    if (isFlying() && fuel > 0.0)
    {
+      // And while lander flying, draw the flames
        gout.drawLanderFlames(pos, angle.getRadians(),
          thrust.isMain(), thrust.isClock(), thrust.isCounter());
    }
@@ -79,15 +80,15 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
    // Clockwise
    if (thrust.isClock())
    {
-      angle.add(0.1); // rotation
-      fuel -= FUEL_ROTATE; // Consuming fuel
+      angle.add(0.1);         // rotation
+      fuel -= FUEL_ROTATE;    // Consuming fuel
    }
 
    // Counter Clockwise
    if (thrust.isCounter())
    {
-      angle.add(-0.1); // rotation
-      fuel -= FUEL_ROTATE; // Consuming fuel
+      angle.add(-0.1);        // rotation
+      fuel -= FUEL_ROTATE;    // Consuming fuel
    }
 
    if (fuel < 0.0)
