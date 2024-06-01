@@ -102,8 +102,8 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->lander.coast(acceleration, TIME); // with this time we can appreciate better the movement
 
 
-   // Handle crashes and landings.
-   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true)
+   // Land success
+   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true && pSimulator->lander.getSpeed() <= 4.00 )
    {
 	   pSimulator->lander.land();
 
@@ -112,11 +112,16 @@ void callBack(const Interface* pUI, void* p)
       gout << "Eagle has landed!" << endl;
       gout.flush();
 
+	  pSimulator->display();
+
       // Reset lander and play again.
-	   pSimulator->lander.reset(pSimulator->startLander);
+	  pSimulator->lander.reset(pSimulator->startLander);
+
+	  Sleep(5000);
    }
 
-   if (pSimulator->ground.hitGround(pSimulator->posLander, 20) == true)
+   // Crash
+   if (pSimulator->ground.hitGround(pSimulator->posLander, 20) == true) 
    {
 	   pSimulator->lander.crash();
 
@@ -125,13 +130,36 @@ void callBack(const Interface* pUI, void* p)
       gout << "Houston we have a problem!" << endl;
       gout.flush();
 
-      // Reset lander and play again.
-	   pSimulator->lander.reset(pSimulator->startLander);
-   }
-	   
+	  pSimulator->display();
 
-   // draw the game
-   pSimulator->display();
+      // Reset lander and play again.
+	  pSimulator->lander.reset(pSimulator->startLander);
+
+	  Sleep(5000);
+   }
+
+   // Crash
+   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true && pSimulator->lander.getSpeed() >= 4.00)
+   {
+	   pSimulator->lander.crash();
+
+	   // Put text on screen
+	   gout.setPosition(pSimulator->centerText);
+	   gout << "Houston we have a problem!" << endl;
+	   gout.flush();
+
+	   pSimulator->display();
+
+	   pSimulator->lander.reset(pSimulator->startLander);
+
+	   Sleep(5000);
+   }
+	
+
+	// draw the game
+	pSimulator->display();
+ 
+
 }
 
 /*********************************
