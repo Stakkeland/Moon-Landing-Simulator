@@ -32,7 +32,7 @@ class Simulator
 {
 public:
    Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(20,380), 
-		startLander(posUpperRight), centerText(120, 300) {}
+		centerText(120, 300) {}
    
    // display stuff on the screen
    void display();
@@ -45,7 +45,6 @@ public:
    Thrust thrust;
    Position posText;
    Position centerText;
-   Position startLander;
 };
 
 /**********************************************************
@@ -132,7 +131,7 @@ void callBack(const Interface* pUI, void* p)
    // If the lander touches the ground for any circumstance
    if (pSimulator->lander.isLanded() || pSimulator->lander.isDead()) 
    {
-      // Give me the last position and don't update more my screen
+      // Give me the last position and don't update the screen
       pSimulator->display();
       return;
    }
@@ -140,6 +139,11 @@ void callBack(const Interface* pUI, void* p)
    Thrust thrust;
    // input from keyboard 
    thrust.set(pUI);
+
+   if (pUI->isDown())
+   {
+	   gout.drawLanderFlames(pSimulator->posLander, pSimulator->a.getRadians(), thrust.isMain(), thrust.isClock(), thrust.isCounter());
+   }
 
    Acceleration acceleration = pSimulator->lander.input(thrust, GRAVITY); // gravity given at the beginning
 
