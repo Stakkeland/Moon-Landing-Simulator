@@ -13,7 +13,9 @@
 #include "test.h"        // for the unit tests
 #include "thrust.h"      // moving lunar lander
 #include <cmath>         // for SQRT
-#include <cassert>       // for ASSERT
+#include <cassert>		 // for ASSERT
+#include <windows.h>     // for SLEEP
+#include <iostream>		 // for SLEEP
 using namespace std;
 
 #define GRAVITY -1.625   // Gravity
@@ -29,7 +31,7 @@ class Simulator
 {
 public:
    Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(20,380), 
-		startLander(posUpperRight) {}
+		startLander(posUpperRight), centerText(120,300) {}
    
    // display stuff on the screen
    void display();
@@ -41,6 +43,7 @@ public:
    Lander lander;
    Thrust thrust;
    Position posText;
+   Position centerText;
    Position startLander;
 };
 
@@ -67,7 +70,7 @@ void Simulator::display()
 
    // Draw variables on the screen
    gout.setPosition(posText);
-   gout << "Fuel: " << lander.getFuel() << " L? gal?" << endl;
+   gout << "Fuel: " << lander.getFuel() << " pounds " << endl;
    gout << "Altitude: " << static_cast<int>(lander.getPosition().getY() - ground.getElevation(lander.getPosition())) << " m" << endl;
    gout << "Speed: " << static_cast<int>(lander.getSpeed()) << " m/s" << endl;
    gout.flush();
@@ -84,6 +87,7 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulator * pSimulator = (Simulator *)p;
+   ogstream gout;
 
    // Get up to date position of the lander.
    pSimulator->posLander = pSimulator->lander.getPosition();
@@ -101,13 +105,28 @@ void callBack(const Interface* pUI, void* p)
    if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true)
    {
 	   pSimulator->lander.land();
+
+	   // Put text on screen
+	   gout.setPosition(pSimulator->centerText);
+	   gout << "Eagle has landed!" << endl;
+	   gout.flush();
+
+	   // Reset lander and play again.
 	   pSimulator->lander.reset(pSimulator->startLander);
    }
 
    if (pSimulator->ground.hitGround(pSimulator->posLander, 20) == true)
    {
 	   pSimulator->lander.crash();
-	   pSimulator->lander.reset(pSimulator->startLander);
+
+	   // Put text on screen
+	   gout.setPosition(pSimulator->centerText);
+	   gout << "Houston we have a problem!" << endl;
+	   gout.flush();
+
+		// Reset lander and play again.
+	    pSimulator->lander.reset(pSimulator->startLander);
+
    }
 	   
 
