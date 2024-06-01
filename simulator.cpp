@@ -136,11 +136,12 @@ void callBack(const Interface* pUI, void* p)
       return;
    }
 
-   Thrust thrust;
    // input from keyboard 
+   Thrust thrust;
    thrust.set(pUI);
 
-   if (pUI->isDown())
+   // Add lander flames
+   if (pUI->isDown() || pUI->isRight() || pUI->isLeft())
    {
 	   gout.drawLanderFlames(pSimulator->posLander, pSimulator->a.getRadians(), thrust.isMain(), thrust.isClock(), thrust.isCounter());
    }
