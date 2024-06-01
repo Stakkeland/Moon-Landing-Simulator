@@ -45,6 +45,8 @@ public:
    Thrust thrust;
    Position posText;
    Position centerText;
+
+   int starLoops = 0;
 };
 
 /**********************************************************
@@ -71,8 +73,9 @@ void Simulator::display()
 
    for (int i = 0; i < 50; i++)
    {
-      stars[i].draw(gout);
-   }
+		star.reset(WIDTH, HEIGHT);
+		star.draw(gout);
+	}
 
 	// draw the ground
 	ground.draw(gout);
