@@ -40,7 +40,6 @@ public:
    Ground ground;
    Angle a;
    Position posLander;
-   Star star;
    Lander lander;
    Thrust thrust;
    Position posText;
@@ -71,9 +70,8 @@ void Simulator::display()
 
    for (int i = 0; i < 50; i++)
    {
-		star.reset(WIDTH, HEIGHT);
-		star.draw(gout);
-	}
+		stars[i].draw(gout);
+   }
 
 	// draw the ground
 	ground.draw(gout);
