@@ -28,7 +28,8 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight), lander(posUpperRight), posText(350,350), 
+		startLander(posUpperRight) {}
    
    // display stuff on the screen
    void display();
@@ -39,6 +40,8 @@ public:
    Star star;
    Lander lander;
    Thrust thrust;
+   Position posText;
+   Position startLander;
 };
 
 /**********************************************************
@@ -75,13 +78,35 @@ void callBack(const Interface* pUI, void* p)
    // is the first step of every single callback function in OpenGL. 
    Simulator * pSimulator = (Simulator *)p;
 
+   // Get up to date position of the lander.
+   pSimulator->posLander = pSimulator->lander.getPosition();
+
    Thrust thrust;
    // input from keyboard 
    thrust.set(pUI);
 
    Acceleration acceleration = pSimulator->lander.input(thrust, GRAVITY); // gravity given at the beginning
 
-   pSimulator->lander.coast(acceleration, TIME);// with this time we can appreciate better the movement
+   pSimulator->lander.coast(acceleration, TIME); // with this time we can appreciate better the movement
+
+   // Text on screen.
+   ogstream gout;
+   gout.setPosition(pSimulator->posText);
+   gout.flush();
+
+   // Handle crashes and landings.
+   if (pSimulator->ground.onPlatform(pSimulator->posLander, 20) == true)
+   {
+	   pSimulator->lander.land();
+	   pSimulator->lander.reset(pSimulator->startLander);
+   }
+
+   if (pSimulator->ground.hitGround(pSimulator->posLander, 20) == true)
+   {
+	   pSimulator->lander.crash();
+	   pSimulator->lander.reset(pSimulator->startLander);
+   }
+	   
 
    // draw the game
    pSimulator->display();
